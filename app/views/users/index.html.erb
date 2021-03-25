@@ -1,15 +1,16 @@
-<% provide(:title, 'All users') %>
-<h1>All users</h1>
+<% provide(:title, "Index user") %>
+<h1>Update your profile</h1>
 
-<#%= will_paginate %>
-
-<ul class="users">
-  <% @users.each do |user| %>
-    <li>
-      <%= gravatar_for user, size: 50 %>
-      <%= link_to user.name, user %>
-    </li>
-  <% end %>
-</ul>
-
-<#%= will_paginate %>
+<body>
+  <p>
+  </p>
+  <table class="info">
+    <% @users.each do |user| %>
+        <tr><td><%= user.name %> </td>
+        <td><%= user.login_id %> </td>
+        <td><a href="/users/<%= user.id%>/edit">"編集"</a>
+        <td>  <%= link_to "削除", user, method: :delete,
+                                  data: { confirm: "You sure?" } if !user.admin? %></td></tr>
+    <% end %>
+  </table>
+</body>
