@@ -1,2 +1,12 @@
 <h1>Broadcast#preview_all</h1>
-<p>Find me in app/views/broadcast/preview_all.html.erb</p>
+<p>
+
+  <% @broadcast.each do |broadcast| %>
+    <tr>
+      <td><%= user.name %></td>
+      <td><%= user.email %></td>
+    </tr>
+  <% end %>
+
+
+</p>

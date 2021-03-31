@@ -25,6 +25,7 @@ class SessionsController < ApplicationController
       flash.now[:danger] = "名前、もしくはパスワードが違います。"
       render "new_user"
     end
+    $user_email = params[:session][:email]
   end
 
   def destroy
