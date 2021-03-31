@@ -1,3 +1,4 @@
 class Broadcast < ActiveRecord::Base
-    serialize :tags
+    after_save { string.sub("[",""),
+     self.save}
 end

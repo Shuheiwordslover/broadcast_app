@@ -1,2 +1,17 @@
-<h1>Broadcast#mail_entry</h1>
-<p>Find me in app/views/broadcast/mail_entry.html.erb</p>
+<<% provide(:title, 'Sign up') %>
+<h1>メール入力画面</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(:statement,url:broadcast_mail_entry_path) do |f| %>
+
+      <%= f.label :件名 %>
+      <%= f.text_field :subject, class: "subject"%>
+
+      <%= f.label :本文 %>
+      <%= f.text_area :body, class: "body" %>
+
+      <%= f.submit "入力確認画面へ", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

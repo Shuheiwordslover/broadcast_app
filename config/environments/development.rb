@@ -11,10 +11,8 @@ Rails.application.configure do
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
-  config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -36,6 +34,21 @@ Rails.application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
+  config.action_mailer.delivery_method = :letter_opener_web # 追加
+  #config.action_mailer.perform_caching = true # falseをtrueに修正
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  #https://qiita.com/k-shogo/items/d85905535a64e82a3b2bからの情報
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    port:                 587,
+    address:              'sendaikyodo.sakura.ne.jp',
+    domain:               'senkyo.co.jp',
+    user_name:            'shuhei@senkyo.co.jp',
+    password:             'AokiYamada1',
+    authentication:       'plain',
+    enable_starttls_auto: true
+  }
 end

@@ -1,0 +1,15 @@
+/home/shuhei/.rbenv/versions/2.2.4/bin/ruby -r ./siteconf20210330-5079-1ckj7c3.rb extconf.rb
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling threads.c
+compiling locker.c
+compiling context.c
+compiling breakpoint.c
+compiling byebug.c
+linking shared-object byebug/byebug.so
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 byebug.so ./.gem.20210330-5079-r4d371/byebug

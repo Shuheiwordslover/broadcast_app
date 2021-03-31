@@ -17,9 +17,9 @@ ActiveRecord::Schema.define(version: 20210327012348) do
   enable_extension "plpgsql"
 
   create_table "broadcasts", force: :cascade do |t|
-    t.string   "file"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "string"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: :cascade do |t|
