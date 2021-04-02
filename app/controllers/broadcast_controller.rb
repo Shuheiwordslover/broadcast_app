@@ -71,7 +71,6 @@ class BroadcastController < ApplicationController
   end
 
   def sent_message
-    ContactMailer.send_when_admin_reply.deliver_now
     @body = $body
     @subject = $subject
     broadcasts = Broadcast.all
@@ -97,10 +96,15 @@ class BroadcastController < ApplicationController
 
         end
 
-      end
+
+        end
+    if !(broadcast.id == 1)
+      p "これが表示されてたらメールは送られてる"
+      ContactMailer.broadcast_send_mail(broadcast.string.split(",")[0],subject,body).deliver_now
+    end
 
 
-    ContactMailer.send_when_admin_reply.deliver_now
+
     end
   end
 
