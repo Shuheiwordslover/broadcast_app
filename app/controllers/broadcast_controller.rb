@@ -37,40 +37,94 @@ class BroadcastController < ApplicationController
   def confirm_email
     $body= params[:statement][:body]
     $subject = params[:statement][:subject]
+    #Viewで使うためにインスタンス生成
     @broadcast = Broadcast.new
-
+    @body = $body
+    @subject = $subject
     #カラムの名前になる行
     @sec = Broadcast.find(1).string.split(",")
-
-    range1 = Range.new(0, Broadcast.count-1)
+    range1 = Range.new(0, @sec.count-1)
+    p @sec.count
     range1.each do |i|
-      if $body.include?("<"+sec[i]+">")
-        $body = $body.gsub("<"+sec[i]+">",Broadcast.find(2).string.split(",")[i])
+      #subjectを書き換える
+      if @subject.include?("<"+@sec[i]+">")
+        @subject = @subject.gsub("<"+@sec[i]+">",Broadcast.find(2).string.split(",")[i])
       end
-      if $subject.include?("<"+sec[i]+">")
-        $subject = $subject.gsub("<"+sec[i]+">",Broadcast.find(2).string.split(",")[i])
+
+      if @body.include?("<"+@sec[i]+">")
+        @body = @body.gsub("<"+@sec[i]+">",Broadcast.find(2).string.split(",")[i])
+        p @body
+        p Broadcast.find(2).string.split(",")[i]
       end
     end
   end
 
+
+
   def preview_all
-    @broadcast = Broadcast.new
+
+    @broadcasts = Broadcast.new
+    @body = $body
+    @subject = $subject
     @sec = Broadcast.find(1).string.split(",")
 
-    range1 = Range.new(0, Broadcast.count-1)
-    range1.each do |i|
-      if $body.include?("<"+sec[i]+">")
-        $body = $body.gsub("<"+sec[i]+">",Broadcast.find(2).string.split(",")[i])
-      end
-      if $subject.include?("<"+sec[i]+">")
-        $subject = $subject.gsub("<"+sec[i]+">",Broadcast.find(2).string.split(",")[i])
-      end
-    end
   end
 
   def sent_message
+    ContactMailer.send_when_admin_reply.deliver_now
+    @body = $body
+    @subject = $subject
+    broadcasts = Broadcast.all
+
+
+    @sec = Broadcast.find(1).string.split(",")
+    range1 = Range.new(0, @sec.count-1)
+
+
+    broadcasts.each do |broadcast|
+    subject = @subject
+    body = @body
+      range1.each do |i|
+
+        if subject.include?("<"+@sec[i]+">")
+
+          subject = subject.gsub("<"+@sec[i]+">",broadcast.string.split(",")[i])
+
+        end
+
+        if body.include?("<"+@sec[i]+">")
+          body = body.gsub("<"+@sec[i]+">",broadcast.string.split(",")[i])
+
+        end
+
+      end
+
+
+    ContactMailer.send_when_admin_reply.deliver_now
+    end
   end
+
+
+
   private
+  def show_all_mail_lists
+    @body = $body
+    @subject = $subject
+    @broadcasts = Broadcast.all
+    range1 = Range.new(0, @sec.count-1)
+    @broadcasts.each do |broadcast|
+      range1.each do |i|
+        if @subject.include?("<"+@sec[i]+">")
+          @subject = @subject.gsub("<"+@sec[i]+">",boradcast.string.split(",")[i])
+        end
+
+        if @body.include?("<"+@sec[i]+">")
+          @body = @body.gsub("<"+@sec[i]+">",boradcast.string.split(",")[i])
+        end
+      end
+    end
+  end
+
 
 
 

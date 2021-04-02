@@ -1,12 +1,39 @@
 <h1>Broadcast#preview_all</h1>
 <p>
-
-  <% @broadcast.each do |broadcast| %>
-    <tr>
-      <td><%= user.name %></td>
-      <td><%= user.email %></td>
-    </tr>
-  <% end %>
+  <tr>
+<%@body = $body%>
+<%@subject = $subject%>
+<%broadcasts = Broadcast.all%>
 
 
+<%@sec = Broadcast.find(1).string.split(",")%>
+<%range1 = Range.new(0, @sec.count-1)%>
+
+
+<%broadcasts.each do |broadcast|%>
+<%subject = @subject%>
+<%body = @body%>
+  <%range1.each do |i|%>
+
+    <%if subject.include?("<"+@sec[i]+">")%>
+
+      <%subject = subject.gsub("<"+@sec[i]+">",broadcast.string.split(",")[i])%>
+
+    <%end%>
+
+    <%if body.include?("<"+@sec[i]+">")%>
+      <%body = body.gsub("<"+@sec[i]+">",broadcast.string.split(",")[i])%>
+
+    <%end%>
+
+  <%end%>
+  <td>送信者:<%=$user_email%></td><br>
+  <td>受信者:<%=broadcast.string.split(",")[0]%></td><br>  
+  <td>件名:<%=subject%></td><br>
+  <td>本文:<%=body%></td><br>
+    <br><br>--------------------------------------------------<br><br>
+
+  </tr>
+
+<%end%>
 </p>

@@ -4,11 +4,12 @@
 <div>
   受信者情報ファイル：<%= $file_name%>
   <br><br>
-  送信者：<%= $user_email%>
+  送信者<%= $user_email%>
   <br><br>
-  件名：<%=$subject%>
-  <br><br>  本文（１件目)：<%=$body%>
+  件名：<%=@subject%>
+  <br><br>  本文（１件目)：<%=@body%>
 </div>
 
-
+  <%= link_to "全メール確認", broadcast_preview_all_path, class: "btn btn-lg btn-primary" %>
+  <%= link_to "内容を確定し、送信する", broadcast_sent_message_path, class: "btn btn-lg btn-primary" %>
 </body>
