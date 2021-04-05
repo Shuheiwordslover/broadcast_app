@@ -1,9 +1,11 @@
 <h1>Broadcast#preview_all</h1>
+<%= link_to "入力確認画面に戻る", broadcast_confirm_email_path ,method: :get, class: "btn btn-lg btn-primary" %>
+
 <p>
   <tr>
 <%@body = $body%>
 <%@subject = $subject%>
-<%broadcasts = Broadcast.all%>
+<%broadcasts = Broadcast.where.not(id:1)%>
 
 
 <%@sec = Broadcast.find(1).string.split(",")%>
@@ -28,7 +30,7 @@
 
   <%end%>
   <td>送信者:<%=$user_email%></td><br>
-  <td>受信者:<%=broadcast.string.split(",")[0]%></td><br>  
+  <td>受信者:<%=broadcast.string.split(",")[0]%></td><br>
   <td>件名:<%=subject%></td><br>
   <td>本文:<%=body%></td><br>
     <br><br>--------------------------------------------------<br><br>

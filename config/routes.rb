@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   get 'broadcast/confirm_email'
   get 'broadcast/preview_all'
   get 'broadcast/sent_message'
-  post 'fileuploads' => 'broadcast#create'
-  post "broadcast/mail_entry" => "broadcast#confirm_email"
+
+  post 'broadcast/mail_entry' => 'broadcast#create'
+  post "broadcast/confirm_email" => "broadcast#confirm_email"
 
   root             'sessions#new_user'
   get 'signup'  => 'users#new'

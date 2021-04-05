@@ -5,10 +5,12 @@
   <p>
   </p>
   <table class="info">
+    <tr><td><%= link_to "新規",new_user_path%></td></tr>
     <% @users.each do |user| %>
-        <tr><td><%= user.name %> </td>
+        <td><%= user.name %> </td>
         <td><%= user.login_id %> </td>
-        <td><a href="/users/<%= user.id%>/edit">"編集"</a>
+        <td>  <%= link_to "編集", edit_user_path(id=user.id), method: :get%></td></tr>
+
         <td>  <%= link_to "削除", user, method: :delete,
                                   data: { confirm: "You sure?" } if !user.admin? %></td></tr>
     <% end %>

@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     if @user.save
       @user.login_id= User.maximum(:login_id)+1
       @user.save
-      render "new"
+      redirect_to users_path
       # Handle a successful save.
     else
       render 'new'
@@ -39,6 +39,7 @@ class UsersController < ApplicationController
   def edit
     @user = User.find(params[:id])
   end
+
 
   def update
     @user = User.find(params[:id])
@@ -66,7 +67,7 @@ class UsersController < ApplicationController
   # 正しいユーザーかどうか確認
   def correct_user
     @user = User.find(params[:id])
-    redirect_to(root_url) unless @user == current_user
+    redirect_to(root_url) unless @user == current_user|| !User.find(params[:id]).admin?
   end
   def admin_user
     redirect_to(root_url) unless current_user.admin? || !User.find(params[:id]).admin?

@@ -1,9 +1,13 @@
-<<% provide(:title, 'Sign up') %>
 <h1>メール入力画面</h1>
+<%@range.each do |t|%>
+<%= "<"+@box[t]+">"%>
+<br>
+  <%end%>
+
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_for(:statement,url:broadcast_mail_entry_path) do |f| %>
+    <%= form_for(:statement,url:broadcast_confirm_email_path) do |f| %>
 
       <%= f.label :件名 %>
       <%= f.text_field :subject, class: "subject"%>
@@ -12,6 +16,11 @@
       <%= f.text_area :body, class: "body" %>
 
       <%= f.submit "入力確認画面へ", class: "btn btn-primary" %>
+
+      <%= f.check_box:bracket %>
+      <%= f.label :bracket, "差出人のカッコを[]に変更" %>
     <% end %>
   </div>
 </div>
+
+<%= link_to "ファイル選択画面", broadcast_new_path,method: :get, class: "btn btn-lg btn-primary" %>

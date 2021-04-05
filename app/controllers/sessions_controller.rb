@@ -16,6 +16,7 @@ class SessionsController < ApplicationController
     end
   end
 
+
   def create_user
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
@@ -26,6 +27,7 @@ class SessionsController < ApplicationController
       render "new_user"
     end
     $user_email = params[:session][:email]
+    $user = user.name
   end
 
   def destroy
