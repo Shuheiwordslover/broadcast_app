@@ -1,7 +1,7 @@
 <h2>ユーザのデータをファイルからインポートする</h2>
 
 <div>
-  <%= form_for(:broadcast, url:broadcast_mail_entry_path, method: :get, multipart:true) do |f| %>
+  <%= form_for(:broadcast, url:broadcast_mail_entry_path, method: :post, multipart:true) do |f| %>
   <%= f.file_field :file %>
   <%= f.submit "Import" %>
   <% end %>

@@ -4,32 +4,31 @@ class BroadcastController < ApplicationController
   end
 
   def create
+
     require 'nkf'
     require "csv"
     #毎回データベースを中身は空にしたいので、destroy_allを利用する。
     Broadcast.destroy_all
-    num = 1
     text = CSV.parse(NKF.nkf( "-S -w -Lw", params[:broadcast][:file].read))
+    num =0
     #ファイルの名前をグローバル変数でおいておく。
     $file_name = params[:broadcast][:file].original_filename
-    text. each do |text|
-      @broadcast = Broadcast.new
-      @broadcast.string = text
-      @broadcast.id = num
-      @broadcast.save
-      @broadcast.string = @broadcast.string.sub(/\[/,"")
-      @broadcast.string = @broadcast.string.sub(/\]/,"")
-      @broadcast.string = @broadcast.string.gsub(/\"/,"")
-      @broadcast.string = @broadcast.string.gsub(/\\/,"")
-      @broadcast.string = @broadcast.string.gsub(/ /,"")
+    p "これが表示されないと本当に始まらない"
+    p text.count
+    range = Range.new(1,text.count-2)
+      @broadcast = Broadcast.create(id:num)
+      @broadcast.email = text[0]
+      range. each do |k|
+        column = "column"+"#{k}"
+        @broadcast.update("#{column}",text[k])
+      end
       @broadcast.save
       num += 1
     end
+    redirect_to broadcast_mail_entry_path
   end
 
   def mail_entry
-    @box = Broadcast.find(1).string.split(",")
-    @range = Range.new(0, @box.count-1)
   end
 
   def confirm_email
@@ -103,5 +102,3 @@ class BroadcastController < ApplicationController
 
 
   private
-
-end

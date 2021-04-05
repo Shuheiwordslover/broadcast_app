@@ -1,7 +1,27 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  array: 
+  email: MyString
+  column1: MyString
+  column2: MyString
+  column3: MyString
+  column4: MyString
+  column5: MyString
+  column6: MyString
+  column7: MyString
+  column8: MyString
+  column9: MyString
+  column10: MyString
 
 two:
-  array: 
+  email: MyString
+  column1: MyString
+  column2: MyString
+  column3: MyString
+  column4: MyString
+  column5: MyString
+  column6: MyString
+  column7: MyString
+  column8: MyString
+  column9: MyString
+  column10: MyString

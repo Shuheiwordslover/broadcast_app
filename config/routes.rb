@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
   get 'broadcast/new'
-  get 'broadcast/mail_entry'
+  post'broadcast/new'
+  post 'broadcast/mail_entry'=> "broadcast#create"
   get 'broadcast/confirm_email'
   get 'broadcast/preview_all'
   get 'broadcast/sent_message'
 
-  post 'broadcast/mail_entry' => 'broadcast#create'
+  get "broadcast/mail_entry" => ""
   post "broadcast/confirm_email" => "broadcast#confirm_email"
 
   root             'sessions#new_user'
