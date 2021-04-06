@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       log_in user
       redirect_to users_path
     else
-      flash.now[:danger] = '管理者以外ははいれません'
+      flash.now[:danger] = '管理者以外は入れません'
       render "new"
     end
   end
@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
       log_in user
-      redirect_to broadcast_new_path
+      render "broadcast/new"
     else
       flash.now[:danger] = "名前、もしくはパスワードが違います。"
       render "new_user"

@@ -16,22 +16,6 @@ ActiveRecord::Schema.define(version: 20210405025709) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "broadcasts", force: :cascade do |t|
-    t.string   "email"
-    t.string   "column1"
-    t.string   "column2"
-    t.string   "column3"
-    t.string   "column4"
-    t.string   "column5"
-    t.string   "column6"
-    t.string   "column7"
-    t.string   "column8"
-    t.string   "column9"
-    t.string   "column10"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
     t.integer  "attempts",   default: 0, null: false
