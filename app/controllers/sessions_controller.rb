@@ -18,16 +18,23 @@ class SessionsController < ApplicationController
 
 
   def create_user
+    if params[:session][:email].empty?
+      flash.now[:danger]="入力をしてください。"
+      render "new_user"
+      return
+    end
     user = User.find_by(email: params[:session][:email].downcase)
+    session[:email] = params[:session][:email]
+    session[:user] = user[:name]
     if user && user.authenticate(params[:session][:password])
       log_in user
-      render "broadcast/new"
+
+      redirect_to broadcast_new_path
+      flash[:success] = "正常にログインできました。"
     else
       flash.now[:danger] = "名前、もしくはパスワードが違います。"
       render "new_user"
     end
-    $user_email = params[:session][:email]
-    $user = user.name
   end
 
   def destroy

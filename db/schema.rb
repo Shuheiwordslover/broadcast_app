@@ -11,10 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210405025709) do
+ActiveRecord::Schema.define(version: 20210407005436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "broadcasts", force: :cascade do |t|
+    t.string   "email"
+    t.string   "column1"
+    t.string   "column2"
+    t.string   "column3"
+    t.string   "column4"
+    t.string   "column5"
+    t.string   "column6"
+    t.string   "column7"
+    t.string   "column8"
+    t.string   "column9"
+    t.string   "column10"
+    t.text     "body"
+    t.text     "subject"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -31,6 +49,15 @@ ActiveRecord::Schema.define(version: 20210405025709) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "mailinfos", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "mail_id"
+    t.text     "body"
+    t.text     "subject"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

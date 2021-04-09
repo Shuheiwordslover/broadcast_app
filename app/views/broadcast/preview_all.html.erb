@@ -1,41 +1,17 @@
 <h1>Broadcast#preview_all</h1>
-<%= link_to "入力確認画面に戻る", broadcast_confirm_email_path ,method: :get, class: "btn btn-lg btn-primary" %>
-
 <p>
   <tr>
-<%@body = $body%>
-<%@subject = $subject%>
-<%broadcasts = Broadcast.where.not(id:1)%>
 
-
-<%@sec = Broadcast.find(1).string.split(",")%>
-<%range1 = Range.new(0, @sec.count-1)%>
-
-
-<%broadcasts.each do |broadcast|%>
-<%subject = @subject%>
-<%body = @body%>
-  <%range1.each do |i|%>
-
-    <%if subject.include?("<"+@sec[i]+">")%>
-
-      <%subject = subject.gsub("<"+@sec[i]+">",broadcast.string.split(",")[i])%>
-
-    <%end%>
-
-    <%if body.include?("<"+@sec[i]+">")%>
-      <%body = body.gsub("<"+@sec[i]+">",broadcast.string.split(",")[i])%>
-
-    <%end%>
-
-  <%end%>
-  <td>送信者:<%=$user_email%></td><br>
-  <td>受信者:<%=broadcast.string.split(",")[0]%></td><br>
-  <td>件名:<%=subject%></td><br>
-  <td>本文:<%=body%></td><br>
-    <br><br>--------------------------------------------------<br><br>
+<%@broadcast.each do |broadcast|%>
+  <td>送信者:<%=session[:email]%></td><br>
+  <td>受信者:<%=broadcast["email"]%></td><br>
+  <td>件名:<%=broadcast["subject"]%></td><br>
+  <td>本文:<%=safe_join(broadcast["body"].split("\n"),tag(:br))%></td><br>
+  <td>本文:<%#=broadcast["body"]%></td><br>
+<br><br>--------------------------------------------------<br><br>
+<%end%>
 
   </tr>
 
-<%end%>
+
 </p>

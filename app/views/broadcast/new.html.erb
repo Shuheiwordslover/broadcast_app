@@ -1,9 +1,15 @@
 <h2>ユーザのデータをファイルからインポートする</h2>
 
 <div>
-  <%= form_for(:broadcast, url:broadcast_mail_entry_path, method: :post, multipart:true) do |f| %>
-  <%= f.file_field :file %>
-  <%= f.submit "Import" %>
+  <%if (session[:file])%>
+  <%=session[:file]%>
+    <%= link_to "このファイルを使う", broadcast_mail_entry_path,method: :get %>
+  <%= link_to "削除する", delete_filename_path,method: :get %>
+  <%else%>
+  <%= form_for(:session, url:broadcast_mail_entry_path, method: :post, multipart:true) do |f| %>
+    <%= f.file_field :file, class: "file" %>
+    <%= f.submit "Import" %>
+    <% end %>
   <% end %>
 </div>
 

@@ -12,7 +12,8 @@ class CreateBroadcasts < ActiveRecord::Migration
       t.string :column8
       t.string :column9
       t.string :column10
-
+      t.text :body
+      t.text :subject
       t.timestamps null: false
     end
   end

@@ -2,12 +2,16 @@
 
 <body>
 <div>
-  受信者情報ファイル：<%= $file_name%>
+  受信者情報ファイル：<%= session[:filename]%>
   <br><br>
-  送信者<%= $user_email%>
+  送信者<%=session[:email]%>
   <br><br>
-  件名：<%=@subject%>
-  <br><br>  本文（１件目)：<%=@body%>
+<%if (params[:session][:bracket]=="0")%>
+  件名：<br><%="【" + session[:user] + "】" + @broadcast.subject%>
+<%else (params[:session][:bracket]=="1")%>
+  件名：<br><%="[" + session[:user] + "]" + @broadcast.subject%>
+  <%end%>
+  <td>本文:<br><%=safe_join(@broadcast["body"].split("\n"),tag(:br))%></td><br>
 </div>
 
   <%= link_to "全メール確認", broadcast_preview_all_path, class: "btn btn-lg btn-primary", :target=>["_blank"] %>
