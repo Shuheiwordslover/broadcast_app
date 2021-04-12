@@ -38,6 +38,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+    @mailinfos = @user.mailinfos
   end
 
 

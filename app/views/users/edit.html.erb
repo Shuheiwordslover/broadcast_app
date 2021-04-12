@@ -23,3 +23,16 @@
 
  </div>
 </div>
+
+<br><br>
+
+
+<%@user.mailinfos.each do |mailinfo|%>
+<%sent_date = mailinfo.created_at%>
+<%body =mailinfo.body%>
+<%subject = mailinfo.subject%>
+送信日:<%= sent_date %><br>
+本文:<%= body %><br>
+件名:<%= subject %><br>
+<br><br>-------------------------------------------------------------<br><br>
+<%end%>

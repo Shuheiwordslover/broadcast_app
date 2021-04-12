@@ -44,15 +44,12 @@ class BroadcastController < ApplicationController
           column = "column"+"#{k}"
           @broadcast.update("#{column}": session[:text][a-1][k])
           if (a==1 && @broadcast.attributes[column].nil?)
-            p @broadcast.attributes[column]
-            p "夕焼け空は赤い、炎のように赤い"
             flash.now[:danger]="カラム名は必ずいれてください"
             session[:file]=nil
             render "new"
             return
           end
           if (!(a==1) && @broadcast.attributes[column].nil?)
-            p "ここ通ってたらnil””になってるはず"
             @broadcast.update("#{column}": "")
           end
         end
@@ -107,10 +104,15 @@ class BroadcastController < ApplicationController
     broadcasts = Broadcast.where.not(id:1)
     broadcasts.each do |broadcast|
       ContactMailer.delay.broadcast_send_mail(broadcast.email,broadcast.subject,broadcast.body)
+      p "ここを通ってれば送れている。"
+      p session[:user]
+      p session[:email]
     end
     b=Mailinfo.new("body": session[:body], "subject": session[:subject],"user_id": session[:user_id])
     b.save
-
+    Broadcast.destroy_all
+    reset_session
+    system("sh /home/shuhei/workspace/broadcast_app/app/tools")
   end
 
 

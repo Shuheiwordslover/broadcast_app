@@ -7,7 +7,6 @@
   <td>受信者:<%=broadcast["email"]%></td><br>
   <td>件名:<%=broadcast["subject"]%></td><br>
   <td>本文:<%=safe_join(broadcast["body"].split("\n"),tag(:br))%></td><br>
-  <td>本文:<%#=broadcast["body"]%></td><br>
 <br><br>--------------------------------------------------<br><br>
 <%end%>
 

@@ -24,6 +24,11 @@ class SessionsController < ApplicationController
       return
     end
     user = User.find_by(email: params[:session][:email].downcase)
+    if user.nil?
+      flash.now[:danger]="ユーザーは存在しないか削除されています。"
+      render "new_user"
+      return
+    end
     session[:email] = params[:session][:email]
     session[:user] = user[:name]
     if user && user.authenticate(params[:session][:password])
