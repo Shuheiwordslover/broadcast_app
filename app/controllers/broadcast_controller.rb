@@ -1,6 +1,8 @@
 class BroadcastController < ApplicationController
   include BroadcastHelper
+  before_action :logged_in_user
   def new
+
   end
   #csvファイルからデータベースにカラム名＋データを格納する関数
   def create
@@ -60,24 +62,27 @@ class BroadcastController < ApplicationController
       redirect_to broadcast_mail_entry_path
     end
 
-
   end
 
   def delete_filename
     session[:file]=nil
     render "new"
+
   end
 
   def mail_entry
     @range = Range.new(1,session[:count]-1)
     @broadcast = Broadcast.find(1)
+
   end
   def render_mail_entry
     redirect_to broadcast_mail_entry_path
+
   end
 
   def render_select_file
     render "new"
+
   end
   def confirm_email
 
@@ -91,6 +96,7 @@ class BroadcastController < ApplicationController
     user = User.new
     make_body_and_subject_for_each
     @broadcast = Broadcast.find(2)
+
   end
 
 
@@ -104,15 +110,15 @@ class BroadcastController < ApplicationController
     broadcasts = Broadcast.where.not(id:1)
     broadcasts.each do |broadcast|
       ContactMailer.delay.broadcast_send_mail(broadcast.email,broadcast.subject,broadcast.body)
-      p "ここを通ってれば送れている。"
-      p session[:user]
-      p session[:email]
+
     end
     b=Mailinfo.new("body": session[:body], "subject": session[:subject],"user_id": session[:user_id])
     b.save
     Broadcast.destroy_all
     reset_session
     system("sh /home/shuhei/workspace/broadcast_app/app/tools")
+    p "systemが発生しているかを確認"
+    p current_user
   end
 
 

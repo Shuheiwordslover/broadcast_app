@@ -26,7 +26,8 @@
 
 <br><br>
 
-
+<%= will_paginate @mailinfos, :previous_label => ' &lt 前へ', :next_label => '次へ &gt' %>
+<br><br>
 <%@user.mailinfos.each do |mailinfo|%>
 <%sent_date = mailinfo.created_at%>
 <%body =mailinfo.body%>
@@ -36,3 +37,4 @@
 件名:<%= subject %><br>
 <br><br>-------------------------------------------------------------<br><br>
 <%end%>
+<%= will_paginate @mailinfos, :previous_label => ' &lt 前へ', :next_label => '次へ &gt' %>

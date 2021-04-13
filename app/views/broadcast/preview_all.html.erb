@@ -1,7 +1,7 @@
 <h1>Broadcast#preview_all</h1>
 <p>
   <tr>
-
+　<#%= will_paginate @broadcast, :previous_label => ' &lt 前へ', :next_label => '次へ &gt' %>
 <%@broadcast.each do |broadcast|%>
   <td>送信者:<%=session[:email]%></td><br>
   <td>受信者:<%=broadcast["email"]%></td><br>
