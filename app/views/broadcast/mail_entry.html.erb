@@ -2,7 +2,7 @@
 <%="<"+@broadcast[:email]+">"%>
 <% @range.each do |i|%>
   <%column="column"+"#{i}"%>
-  <%p column%>
+  <% break if @broadcast["#{column}"].nil?%>
   <%="<"+@broadcast["#{column}"]+">" %>
 <% end %>
 <br>
