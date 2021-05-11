@@ -1,3 +1,4 @@
+     <%= params %>
 <% provide(:title, "Edit user") %>
 <h1>Update your profile</h1>
 
@@ -16,17 +17,38 @@
 
      <%= f.label :password_confirmation, "Confirmation" %>
      <%= f.password_field :password_confirmation, class: 'form-control' %>
+ここからsmtp編集
+<br><br>
+     <%= f.label :address %>
+     <%= f.text_field :address, class: 'form-control' %>
 
+     <%= f.label :port %>
+     <%= f.text_field :port, class: 'form-control' %>
+
+     <%= f.label :domain %>
+     <%= f.text_field :domain, class: 'form-control' %>
+
+     <%= f.label :user_name %>
+     <%= f.text_field :user_name, class: 'form-control' %>
+
+     <%= f.label :smtp_password %>
+     <%= f.text_field :smtp_password, class: 'form-control' %>
+
+     <%= f.label :authentication%>
+     <%= f.text_field :authentication, class: 'form-control' %>
+
+     <%= f.label :enable_starttls_auto%>
+     <%= f.check_box :enable_starttls_auto, {}, true, false %>
      <%= f.submit "Save changes", class: "btn btn-primary" %>
    <% end %>
 
-
+<%= button_to 'テストメール', {controller: 'users', action: 'send_mail', method: :post, params:{id: params[:id]}}%>
  </div>
 </div>
 
 <br><br>
 
-<%= will_paginate @mailinfos, :previous_label => ' &lt 前へ', :next_label => '次へ &gt' %>
+<""%= will_paginate @mailinfos, :previous_label => ' &lt 前へ', :next_label => '次へ &gt' %>
 <br><br>
 <%@user.mailinfos.each do |mailinfo|%>
 <%sent_date = mailinfo.created_at%>
@@ -37,4 +59,4 @@
 件名:<%= subject %><br>
 <br><br>-------------------------------------------------------------<br><br>
 <%end%>
-<%= will_paginate @mailinfos, :previous_label => ' &lt 前へ', :next_label => '次へ &gt' %>
+<""%= will_paginate @mailinfos, :previous_label => ' &lt 前へ', :next_label => '次へ &gt' %>

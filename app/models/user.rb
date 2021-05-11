@@ -11,5 +11,11 @@ class User < ActiveRecord::Base
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }
 
-
+  #validates :address
+  #validates :port
+  #validates :domain
+  #validates :user_name
+  #validates :smtp_password
+  #validates :authentication
+  #validates :enable_starttls_auto
 end

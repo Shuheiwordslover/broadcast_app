@@ -30,7 +30,7 @@ class SessionsController < ApplicationController
       return
     end
     session[:email] = params[:session][:email]
-    session[:user] = user[:name]
+    session[:user_name] = user[:name]
     if user && user.authenticate(params[:session][:password])
       log_in user
 

@@ -1,3 +1,4 @@
+Net::OpenTimeout=nil
 class UsersController < ApplicationController
   before_action :logged_in_user#, only: [:edit, :update, :index]
   before_action :correct_user,   only: [:edit, :update]
@@ -38,7 +39,6 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-
     @mailinfos = @user.mailinfos.paginate(page: params[:page], per_page: 10)
   end
 
@@ -50,14 +50,34 @@ class UsersController < ApplicationController
       redirect_to users_path
     else
       render 'edit'
+      flash[:danger] = "失敗しました"
     end
   end
 
+  def send_mail
+    p params
+    p "何でもいいから声をきかせてよ"
+
+    @user = User.find(params[:id])
+    ActionMailer::Base.smtp_settings[:address] = @user.address
+    ActionMailer::Base.smtp_settings[:port] = @user.port
+    ActionMailer::Base.smtp_settings[:domain] = @user.domain
+    ActionMailer::Base.smtp_settings[:user_name] = @user.user_name
+    ActionMailer::Base.smtp_settings[:password] = @user.smtp_password
+    ActionMailer::Base.smtp_settings[:authentication] = @user.authentication
+    ActionMailer::Base.smtp_settings[:enable_starttls_auto] = @user.enable_starttls_auto
+    ContactMailer.broadcast_send_mail(@user.email,"テストメール","テストメールです").deliver_later(1.minute)
+    render 'edit'
+    flash[:success] = "送りました"
+    p ActionMailer::Base.smtp_settings
+  end
   private
 
     def user_params
       params.require(:user).permit(:name, :email, :password,:login_id,
-                                   :password_confirmation)
+                                   :password_confirmation,:address, :port, :domain,
+                                 :user_name, :smtp_password, :authentication,
+                               :enable_starttls_auto)
     end
 
     def logged_in_user

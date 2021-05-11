@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210414075359) do
+ActiveRecord::Schema.define(version: 20210430054501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,16 +60,35 @@ ActiveRecord::Schema.define(version: 20210414075359) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "mymails", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "address"
+    t.string   "domain"
+    t.string   "user_name"
+    t.string   "password"
+    t.string   "authentication"
+    t.boolean  "enable_starttls_auto"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
     t.integer  "login_id"
     t.string   "password"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.string   "password_digest"
     t.datetime "deleted_at"
-    t.boolean  "admin",           default: false
+    t.boolean  "admin",                default: false
+    t.string   "address",              default: ""
+    t.integer  "port",                 default: 25
+    t.string   "domain",               default: ""
+    t.string   "user_name",            default: ""
+    t.string   "smtp_password",        default: ""
+    t.string   "authentication",       default: ""
+    t.boolean  "enable_starttls_auto", default: true
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree

@@ -7,9 +7,9 @@
   送信者<%=session[:email]%>
   <br><br>
 <%if (params[:session][:bracket]=="0")%>
-  件名：<br><%="【" + session[:user] + "】" + @broadcast.subject%>
+  件名：<br><%="【" + session[:user_name] + "】" + @broadcast.subject%>
 <%else (params[:session][:bracket]=="1")%>
-  件名：<br><%="[" + session[:user] + "]" + @broadcast.subject%>
+  件名：<br><%="[" + session[:user_name] + "]" + @broadcast.subject%>
   <%end%>
   <td>本文:<br><%=safe_join(@broadcast["body"].split("\n"),tag(:br))%></td><br>
 </div>

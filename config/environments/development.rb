@@ -29,12 +29,13 @@ Rails.application.configure do
   # yet still be able to expire them through the digest params.
   config.assets.digest = true
 
+
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
-  config.action_mailer.delivery_method = :letter_opener_web # 追加
+
   #config.action_mailer.perform_caching = true # falseをtrueに修正
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
   #https://qiita.com/k-shogo/items/d85905535a64e82a3b2bからの情報
@@ -43,12 +44,13 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    port:                 587,
-    address:              'sendaikyodo.sakura.ne.jp',
-    domain:               'senkyo.co.jp',
-    user_name:            'shuhei@senkyo.co.jp',
-    password:             'AokiYamada1',
-    authentication:       'plain',
-    enable_starttls_auto: true
-  }
+  port:                  20,
+  address:               '',
+  domain:                '',
+  user_name:             '',
+  password:              "",
+  authentication:        '',
+  enable_starttls_auto: nil
+}
+
 end
