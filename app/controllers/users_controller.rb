@@ -3,12 +3,17 @@ class UsersController < ApplicationController
   before_action :logged_in_user#, only: [:edit, :update, :index]
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy
+  after_action :refresh_sender, only: :send_mail
   def show
     @user = User.find(params[:id])
   end
 
   def new
     @user = User.new
+  end
+
+  def refresh_sender
+    $sender = nil
   end
 
   def new_user
@@ -29,11 +34,12 @@ class UsersController < ApplicationController
   end
   def destroy
     User.find(params[:id]).destroy
-    flash[:success] = "User deleted"
+    flash.now[:success] = "User deleted"
     redirect_to users_path
   end
 
   def index
+    #raise "どこまで説明しましょうか。変わりゆく現実の中でここに出会えた僕達でさえ"
     @users = User.paginate(page: params[:page], per_page: 10)
   end
 
@@ -46,19 +52,18 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
-      flash[:success] = "編集しました"
+      flash.now[:success] = "編集しました"
       redirect_to users_path
     else
       render 'edit'
-      flash[:danger] = "失敗しました"
+      flash.now[:danger] = "失敗しました"
+
     end
   end
 
   def send_mail
-    p params
-    p "何でもいいから声をきかせてよ"
-
     @user = User.find(params[:id])
+    @mailinfos = @user.mailinfos.paginate(page: params[:page], per_page: 10)
     ActionMailer::Base.smtp_settings[:address] = @user.address
     ActionMailer::Base.smtp_settings[:port] = @user.port
     ActionMailer::Base.smtp_settings[:domain] = @user.domain
@@ -66,10 +71,17 @@ class UsersController < ApplicationController
     ActionMailer::Base.smtp_settings[:password] = @user.smtp_password
     ActionMailer::Base.smtp_settings[:authentication] = @user.authentication
     ActionMailer::Base.smtp_settings[:enable_starttls_auto] = @user.enable_starttls_auto
-    ContactMailer.broadcast_send_mail(@user.email,"テストメール","テストメールです").deliver_later(1.minute)
+    $sender = @user.user_name
+
+    begin
+      ContactMailer.broadcast_send_mail(@user.user_name,"テストメール","テストメールです").deliver_now
+    rescue => e
+      render "edit"
+      flash.now[:danger]="メール設定に問題があります"
+      return
+    end
     render 'edit'
-    flash[:success] = "送りました"
-    p ActionMailer::Base.smtp_settings
+    flash.now[:success] = "送りました"
   end
   private
 
@@ -82,7 +94,7 @@ class UsersController < ApplicationController
 
     def logged_in_user
       unless logged_in?
-      flash[:danger] = "Please log in."
+      flash.now[:danger] = "Please log in."
       redirect_to login_url
     end
   end

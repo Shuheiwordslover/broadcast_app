@@ -1,9 +1,9 @@
-     <%= params %>
 <% provide(:title, "Edit user") %>
 <h1>Update your profile</h1>
 
 <div class="row">
  <div class="col-md-6 col-md-offset-3">
+<%= link_to "ユーザー一覧に戻る", users_path,method: :get, class: "btn btn-lg btn-primary" %>
    <%= form_for(@user) do |f| %>
 
      <%= f.label :name %>
@@ -39,7 +39,10 @@
 
      <%= f.label :enable_starttls_auto%>
      <%= f.check_box :enable_starttls_auto, {}, true, false %>
+
+
      <%= f.submit "Save changes", class: "btn btn-primary" %>
+
    <% end %>
 
 <%= button_to 'テストメール', {controller: 'users', action: 'send_mail', method: :post, params:{id: params[:id]}}%>
@@ -47,8 +50,12 @@
 </div>
 
 <br><br>
-
-<""%= will_paginate @mailinfos, :previous_label => ' &lt 前へ', :next_label => '次へ &gt' %>
+  <%begin%>
+<%= will_paginate @mailinfos, :previous_label => ' &lt 前へ', :next_label => '次へ &gt' %>
+  <%rescue => e%>
+  <%p "レスキューーーー"%>
+  <%flash.now[:danger] = "パスワードも含めて空欄を全部埋めてください"%>
+  <% end %>
 <br><br>
 <%@user.mailinfos.each do |mailinfo|%>
 <%sent_date = mailinfo.created_at%>
@@ -59,4 +66,16 @@
 件名:<%= subject %><br>
 <br><br>-------------------------------------------------------------<br><br>
 <%end%>
-<""%= will_paginate @mailinfos, :previous_label => ' &lt 前へ', :next_label => '次へ &gt' %>
+
+
+
+
+<%= link_to "ユーザー一覧に戻る", users_path,method: :get, class: "btn btn-lg btn-primary" %>
+
+
+  <%begin%>
+<%= will_paginate @mailinfos, :previous_label => ' &lt 前へ', :next_label => '次へ &gt' %>
+<%rescue => e%>
+<%p "レスキューーーー"%>
+  <%flash.now[:danger] = "パスワードも含めて空欄を全部埋めてください"%>
+<% end %>

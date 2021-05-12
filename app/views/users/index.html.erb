@@ -1,5 +1,5 @@
 <% provide(:title, "Index user") %>
-<h1>Update your profile</h1>
+<h1>ユーザー一覧</h1>
 
 <body>
   <p>
@@ -15,6 +15,6 @@
         <td>  <%= link_to "削除", user, method: :delete,
                                   data: { confirm: "You sure?" } if !user.admin? %></td></tr>
     <% end %>
-  <%= will_paginate @users, :previous_label => ' &lt 前へ', :next_label => '次へ &gt' %>
   </table>
+  <%= will_paginate @users, :previous_label => ' &lt 前へ', :next_label => '次へ &gt' %>
 </body>

@@ -35,7 +35,7 @@ class SessionsController < ApplicationController
       log_in user
 
       redirect_to broadcast_new_path
-      flash[:success] = "正常にログインできました。"
+      flash.now[:success] = "正常にログインできました。"
     else
       flash.now[:danger] = "名前、もしくはパスワードが違います。"
       render "new_user"

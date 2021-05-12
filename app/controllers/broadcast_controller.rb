@@ -2,12 +2,13 @@ class BroadcastController < ApplicationController
   include BroadcastHelper
   before_action :logged_in_user
   def new
+    $mymail = nil
   end
   #csvファイルからデータベースにカラム名＋データを格納する関数
   def create
     #if文の左側はそもそもファイルが選択されてないので、params[:session]がnilになること利用
     if (params[:session].nil?)||(!params[:session][:file].original_filename.include?(".csv"))
-      flash[:danger] ="csvファイルを選択してください。"
+      flash.now[:danger] ="csvファイルを選択してください。"
       render "new"
     else
       require 'nkf'
@@ -94,7 +95,7 @@ class BroadcastController < ApplicationController
         session[:subject] = params[:session][:subject]
       else
         redirect_to broadcast_mail_entry_path
-        flash[:danger]="本文と件名をいれてください。"
+        flash.now[:danger]="本文と件名をいれてください。"
         return
       end
     end
@@ -102,28 +103,9 @@ class BroadcastController < ApplicationController
     make_body_and_subject_for_each
     user = User.new
 
+    $mymail = params[:session][:mymail]
+    $sender = current_user.email
 
-    @user = User.find(28)
-    if params[:mymail]==1
-      p "mymail側がきたー"
-      ActionMailer::Base.smtp_settings[:address] = current_user.address
-      ActionMailer::Base.smtp_settings[:port] = current_user.port
-      ActionMailer::Base.smtp_settings[:domain] = current_user.domain
-      ActionMailer::Base.smtp_settings[:user_name] = current_user.user_name
-      ActionMailer::Base.smtp_settings[:password] = current_user.smtp_password
-      ActionMailer::Base.smtp_settings[:authentication] = current_user.authentication
-      ActionMailer::Base.smtp_settings[:enable_starttls_auto] = current_user.enable_starttls_auto
-    else
-      p "デフォルト側がきたー"
-      p params[:mymail]
-      ActionMailer::Base.smtp_settings[:address] = @user.address
-      ActionMailer::Base.smtp_settings[:port] = @user.port
-      ActionMailer::Base.smtp_settings[:domain] = @user.domain
-      ActionMailer::Base.smtp_settings[:user_name] = @user.user_name
-      ActionMailer::Base.smtp_settings[:password] = @user.smtp_password
-      ActionMailer::Base.smtp_settings[:authentication] = @user.authentication
-      ActionMailer::Base.smtp_settings[:enable_starttls_auto] = @user.enable_starttls_auto
-    end
   end
 
 
@@ -133,8 +115,7 @@ class BroadcastController < ApplicationController
   end
 
   def sent_message
-    @user = User.find(28)
-    @broadcasts = Broadcast.where(user_id: current_user.id).where.not(body: nil)
+    @user = User.find(26)
     ActionMailer::Base.smtp_settings[:address] = @user.address
     ActionMailer::Base.smtp_settings[:port] = @user.port
     ActionMailer::Base.smtp_settings[:domain] = @user.domain
@@ -142,8 +123,9 @@ class BroadcastController < ApplicationController
     ActionMailer::Base.smtp_settings[:password] = @user.smtp_password
     ActionMailer::Base.smtp_settings[:authentication] = @user.authentication
     ActionMailer::Base.smtp_settings[:enable_starttls_auto] = @user.enable_starttls_auto
+    @broadcasts = Broadcast.where(user_id: current_user.id).where.not(body: nil)
     @broadcasts.each do |broadcast|
-      ContactMailer.delay.broadcast_send_mail(broadcast.email,broadcast.subject,broadcast.body)
+      ContactMailer.broadcast_send_mail(broadcast.email,broadcast.subject,broadcast.body).deliver_now
     #  ContactMailer.broadcast_send_mail(broadcast.email,broadcast.subject,broadcast.body).deliver_later(1.minute)
     end
 
@@ -152,15 +134,13 @@ class BroadcastController < ApplicationController
     Broadcast.where(user_id: current_user.id).destroy_all
     reset_session
     system("./bin/delayed_job start")
-    p "smtpの設定を確認するーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー"
-    p ActionMailer::Base.smtp_settings
+
   end
 
 
 
   private
   def make_body_and_subject_for_each
-    p "げんや死んでしまうのショックだなぁ。"
     title = Broadcast.where(user_id: current_user.id).order(id: :ASC).first
     start_id = Broadcast.where(user_id: current_user.id).order(id: :ASC).second[:id]
     last_id = Broadcast.where(user_id: current_user.id).order(id: :ASC).last[:id]
