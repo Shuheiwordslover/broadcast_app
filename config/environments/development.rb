@@ -10,7 +10,7 @@ Rails.application.configure do
   config.eager_load = false
 
   # Show full error reports and disable caching.
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local = true
 
   # Don't care if the mailer can't send.
 
@@ -41,6 +41,11 @@ Rails.application.configure do
   #https://qiita.com/k-shogo/items/d85905535a64e82a3b2bからの情報
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+
+
   config.action_mailer.raise_delivery_errors = true
+
+  config.action_mailer.delivery_method = :smtp
 
 end

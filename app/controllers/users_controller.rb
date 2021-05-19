@@ -53,7 +53,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
       flash.now[:success] = "編集しました"
-      redirect_to users_path
+      render 'edit'
     else
       render 'edit'
       flash.now[:danger] = "失敗しました"
@@ -64,22 +64,15 @@ class UsersController < ApplicationController
   def send_mail
     @user = User.find(params[:id])
     @mailinfos = @user.mailinfos.paginate(page: params[:page], per_page: 10)
-    ActionMailer::Base.smtp_settings[:address] = @user.address
-    ActionMailer::Base.smtp_settings[:port] = @user.port
-    ActionMailer::Base.smtp_settings[:domain] = @user.domain
-    ActionMailer::Base.smtp_settings[:user_name] = @user.user_name
-    ActionMailer::Base.smtp_settings[:password] = @user.smtp_password
-    ActionMailer::Base.smtp_settings[:authentication] = @user.authentication
-    ActionMailer::Base.smtp_settings[:enable_starttls_auto] = @user.enable_starttls_auto
-    $sender = @user.user_name
+    $mymail = "1"
 
-    begin
-      ContactMailer.broadcast_send_mail(@user.user_name,"テストメール","テストメールです").deliver_now
-    rescue => e
-      render "edit"
-      flash.now[:danger]="メール設定に問題があります"
-      return
-    end
+    #begin
+    ContactMailer.delay.broadcast_send_mail(@user.user_name,"テストメール","テストメールです")
+    #rescue => e
+    #render "edit"
+    #flash.now[:danger]="メール設定に問題があります"
+    #return
+    #end
     render 'edit'
     flash.now[:success] = "送りました"
   end

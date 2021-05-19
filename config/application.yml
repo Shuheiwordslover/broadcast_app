@@ -1,0 +1,12 @@
+defaults: &defaults
+  name: GuestBook
+
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  name: GuestBook Production
+
+test: &test
+  <<: *defaults

@@ -1,0 +1,10 @@
+/home/shuhei/.rbenv/versions/2.2.4/bin/ruby -rubygems /home/shuhei/workspace/broadcast_app/vendor/bundler/ruby/2.2.0/gems/rake-13.0.3/exe/rake RUBYARCHDIR=/home/shuhei/workspace/broadcast_app/vendor/bundler/ruby/2.2.0/extensions/x86_64-linux/2.2.0-static/mimemagic-0.4.3 RUBYLIBDIR=/home/shuhei/workspace/broadcast_app/vendor/bundler/ruby/2.2.0/extensions/x86_64-linux/2.2.0-static/mimemagic-0.4.3
+rake aborted!
+SyntaxError: /home/shuhei/workspace/broadcast_app/vendor/bundler/ruby/2.2.0/gems/mimemagic-0.4.3/ext/mimemagic/Rakefile:31: syntax error, unexpected <<, expecting ')'
+    f.print(<<~SOURCE
+              ^
+/home/shuhei/workspace/broadcast_app/vendor/bundler/ruby/2.2.0/gems/mimemagic-0.4.3/ext/mimemagic/Rakefile:36: syntax error, unexpected ')', expecting keyword_end
+/home/shuhei/workspace/broadcast_app/vendor/bundler/ruby/2.2.0/gems/rake-13.0.3/exe/rake:27:in `<main>'
+(See full trace by running task with --trace)
+
+rake failed, exit code 1

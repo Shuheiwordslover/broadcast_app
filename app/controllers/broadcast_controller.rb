@@ -115,26 +115,34 @@ class BroadcastController < ApplicationController
   end
 
   def sent_message
-    @user = User.find(26)
-    ActionMailer::Base.smtp_settings[:address] = @user.address
-    ActionMailer::Base.smtp_settings[:port] = @user.port
-    ActionMailer::Base.smtp_settings[:domain] = @user.domain
-    ActionMailer::Base.smtp_settings[:user_name] = @user.user_name
-    ActionMailer::Base.smtp_settings[:password] = @user.smtp_password
-    ActionMailer::Base.smtp_settings[:authentication] = @user.authentication
-    ActionMailer::Base.smtp_settings[:enable_starttls_auto] = @user.enable_starttls_auto
     @broadcasts = Broadcast.where(user_id: current_user.id).where.not(body: nil)
-    @broadcasts.each do |broadcast|
-      ContactMailer.broadcast_send_mail(broadcast.email,broadcast.subject,broadcast.body).deliver_now
-    #  ContactMailer.broadcast_send_mail(broadcast.email,broadcast.subject,broadcast.body).deliver_later(1.minute)
+    if (user=User.find(100000))
+      user.destroy
     end
 
+    if $mymail=="1"
+
+      @user=User.new(id=100000,email:"toriaezu@p.com")
+      @user.update_attributes(
+        "address",current_user.address,
+        "port",current_user.port,
+        "domain",current_user.domain,
+        "user_name",current_user.user_name,
+        "smtp_password",current_user.smtp_password,
+        "authentication",current_user.authentication,
+        "enable_starttls_auto",current_user.enable_starttls_auto
+                            )
+      @user.save
+    end
+
+    @broadcasts.each do |broadcast|
+      ContactMailer.delay.broadcast_send_mail(broadcast.email,broadcast.subject,broadcast.body)
+    end
     b=Mailinfo.new("body": session[:body],"subject": session[:subject],"user_id": session[:user_id])
     b.save
     Broadcast.where(user_id: current_user.id).destroy_all
-    reset_session
     system("./bin/delayed_job start")
-
+    reset_session
   end
 
 

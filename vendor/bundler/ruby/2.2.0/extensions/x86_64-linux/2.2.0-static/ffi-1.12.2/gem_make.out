@@ -1,0 +1,42 @@
+/home/shuhei/.rbenv/versions/2.2.4/bin/ruby -r ./siteconf20210518-10478-ywehmc.rb extconf.rb
+checking for ffi_call() in -lffi... yes
+checking for ffi_closure_alloc()... yes
+checking for shlwapi.h... no
+checking for rb_thread_call_without_gvl()... yes
+checking for ruby_native_thread_p()... yes
+checking for ffi_prep_cif_var()... yes
+checking for ffi_raw_call()... yes
+checking for ffi_prep_raw_closure()... yes
+creating extconf.h
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling FunctionInfo.c
+compiling MappedType.c
+compiling Variadic.c
+compiling AbstractMemory.c
+compiling ArrayType.c
+compiling LongDouble.c
+compiling ClosurePool.c
+compiling Thread.c
+compiling Types.c
+compiling Type.c
+compiling Pointer.c
+compiling Call.c
+compiling Struct.c
+compiling MemoryPointer.c
+compiling Platform.c
+compiling StructLayout.c
+compiling DynamicLibrary.c
+compiling Function.c
+compiling Buffer.c
+compiling StructByValue.c
+compiling LastError.c
+compiling ffi.c
+compiling MethodHandle.c
+linking shared-object ffi_c.so
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 ffi_c.so ./.gem.20210518-10478-g515ho

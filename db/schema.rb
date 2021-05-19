@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210430054501) do
+ActiveRecord::Schema.define(version: 20210519012039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20210430054501) do
     t.string   "smtp_password",        default: ""
     t.string   "authentication",       default: ""
     t.boolean  "enable_starttls_auto", default: true
+    t.string   "avator"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree

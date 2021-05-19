@@ -34,6 +34,8 @@ gem 'bootstrap-will_paginate', '0.0.10'
 
 gem 'iconv'
 
+gem "carrierwave", "1.3.2"
+
 group :development do
   gem 'letter_opener' # 追加
   gem 'letter_opener_web' # 追加
@@ -42,6 +44,8 @@ end
 gem "delayed_job"
 gem "delayed_job_active_record"
 gem "daemons"
+
+gem 'settingslogic'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
