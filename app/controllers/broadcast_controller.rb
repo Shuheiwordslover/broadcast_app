@@ -2,7 +2,8 @@ class BroadcastController < ApplicationController
   include BroadcastHelper
   before_action :logged_in_user
   def new
-    $mymail = nil
+    $attachment_number=nil
+
   end
   #csvファイルからデータベースにカラム名＋データを格納する関数
   def create
@@ -64,6 +65,30 @@ class BroadcastController < ApplicationController
 
   end
 
+  def update
+    p params
+    p "どこから説明しましょうか。変わりゆく現実の中で。"
+    if !params["attachment_number"]["attachment_number"].nil?
+      $attachment_number=params["attachment_number"]["attachment_number"].to_i
+      redirect_to broadcast_mail_entry_path
+    else
+    @attachment = Attachment.new(attachment_params)
+    @attachment.update_attribute("file_name",params[:attachment][:file_name])
+    @attachment.save
+    p "銀の涙を僕に預けて、君は１０００％"
+    p params[:attachment][:file_name]
+    redirect_to broadcast_mail_entry_path
+    end
+  end
+
+  def download
+    @attachment = Attachment.find(25)
+    filepath = @attachment.file_name.current_path
+    stat = File::stat(filepath)
+    send_file("#{filepath}")
+
+  end
+
   def delete_filename
     session[:file]=nil
     render "new"
@@ -88,6 +113,17 @@ class BroadcastController < ApplicationController
   end
   # ここのアクションで
   def confirm_email
+      a=1
+      while a<=($attachment_number) do
+        attachment = Attachment.find_by("file_id": a)
+        attachment.update_attribute("file_name",params[:session][:attachment][a-1])
+        attachment.save
+        a+=1
+      end
+
+
+    # 画像をアップできるようにしております。
+
     if [(session[:body].blank? || session[:subject].blank?)] || [!(session[:body]==params[:session][:body]) || !(session[:subject]==params[:session][:subject])]
       #アメリカンカッコか日本語カッコか
       if params.key?("session")
@@ -101,7 +137,6 @@ class BroadcastController < ApplicationController
     end
     @range = Range.new(2,session[:count]-1)
     make_body_and_subject_for_each
-    user = User.new
 
     $mymail = params[:session][:mymail]
     $sender = current_user.email
@@ -111,14 +146,15 @@ class BroadcastController < ApplicationController
 
 
   def preview_all
+    download
     @broadcast = Broadcast.where(user_id: current_user).where.not(body: nil)
   end
 
   def sent_message
     @broadcasts = Broadcast.where(user_id: current_user.id).where.not(body: nil)
-    if (user=User.find(100000))
-      user.destroy
-    end
+    #if (user=User.find(100000))
+    #  user.destroy
+    #end
 
     if $mymail=="1"
 
@@ -180,6 +216,8 @@ class BroadcastController < ApplicationController
   end
 
 
-
+  def attachment_params
+    params.require(:attachment).permit({ file_name: [] })
+  end
 
 end

@@ -67,7 +67,7 @@ class UsersController < ApplicationController
     $mymail = "1"
 
     #begin
-    ContactMailer.delay.broadcast_send_mail(@user.user_name,"テストメール","テストメールです")
+    ContactMailer.broadcast_send_mail(@user.user_name,"テストメール","テストメールです").deliver_now
     #rescue => e
     #render "edit"
     #flash.now[:danger]="メール設定に問題があります"
@@ -82,7 +82,7 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :password,:login_id,
                                    :password_confirmation,:address, :port, :domain,
                                  :user_name, :smtp_password, :authentication,
-                               :enable_starttls_auto)
+                               :enable_starttls_auto,)
     end
 
     def logged_in_user

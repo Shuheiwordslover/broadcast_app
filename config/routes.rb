@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  #mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
   post "users/edit" => "users#send_mail"
   get 'broadcast/new' => "broadcast#new"
   post'broadcast/new' => "broadcast#new"
@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get "delete_filename"=> "broadcast#delete_filename"
 
   post "broadcast/confirm_email" => "broadcast#confirm_email"
-
+post "broadcast/update" => "broadcast#update"
   root             'sessions#new_user'
   get 'signup'  => 'users#new'
   get    'login'   => 'sessions#new'

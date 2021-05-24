@@ -1,1 +1,6 @@
+<%="#{Time.current}"%>
+<%="人並みの中、ただ立ち尽くしてる"%>
+<%=SecureRandom.hex(8)%>
+<%=@text%>
 <%=safe_join(@body.split("\n"),tag(:br))%>
+  <%= Attachment.find(25) %>

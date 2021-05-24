@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210519012039) do
+ActiveRecord::Schema.define(version: 20210524021405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "attachments", force: :cascade do |t|
+    t.string   "file_name"
+    t.string   "URL"
+    t.integer  "mail_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "file_id"
+  end
 
   create_table "broadcasts", force: :cascade do |t|
     t.string   "email"
@@ -89,7 +98,7 @@ ActiveRecord::Schema.define(version: 20210519012039) do
     t.string   "smtp_password",        default: ""
     t.string   "authentication",       default: ""
     t.boolean  "enable_starttls_auto", default: true
-    t.string   "avator"
+    t.string   "avatar"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree

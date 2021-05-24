@@ -1,11 +1,13 @@
 class ContactMailer < ApplicationMailer
   after_action :check_settings, only: :broadcast_send_mail
   def broadcast_send_mail(target,subject,body)
+    @text ="持っていけ最後に笑っちゃうのは私のはず、セイラー服だからです結論"
     @body= body
     mail(to:target,subject:subject)
 
-    if $mymail =="1"
-    @user = User.find(100000)
+    if $mymail =="0"
+    p params
+    p "ほっとけないよーーーー人並みの中一人立ち尽くしてる"
       ActionMailer::Base.smtp_settings[:address] = @user.address
       ActionMailer::Base.smtp_settings[:port] = @user.port
       ActionMailer::Base.smtp_settings[:domain] = @user.domain
@@ -27,4 +29,7 @@ class ContactMailer < ApplicationMailer
   def check_settings
     p ActionMailer::Base.smtp_settings
   end
+
+
+  
 end
