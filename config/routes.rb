@@ -9,9 +9,9 @@ Rails.application.routes.draw do
   get 'broadcast/preview_all'
   get 'broadcast/sent_message'
   get "delete_filename"=> "broadcast#delete_filename"
-
+  get "broadcast/download" =>"broadcast#download"
   post "broadcast/confirm_email" => "broadcast#confirm_email"
-post "broadcast/update" => "broadcast#update"
+  post "broadcast/update" => "broadcast#update"
   root             'sessions#new_user'
   get 'signup'  => 'users#new'
   get    'login'   => 'sessions#new'

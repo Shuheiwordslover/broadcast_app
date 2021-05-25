@@ -64,11 +64,14 @@
 送信日:<%= sent_date %><br>
 本文:<%= body %><br>
 件名:<%= subject %><br>
+
 <br><br>-------------------------------------------------------------<br><br>
 <%end%>
-
-
-
+呪文さ君に教えてあげるよー
+<%@mailinfoss.each do |mailinfo|%>
+<%=mailinfo.attributes%>
+aaaaaa
+<%end%>
 
 <%= link_to "ユーザー一覧に戻る", users_path,method: :get, class: "btn btn-lg btn-primary" %>
 

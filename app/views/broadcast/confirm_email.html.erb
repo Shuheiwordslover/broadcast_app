@@ -4,12 +4,12 @@
 <div>
   受信者情報ファイル：<%= session[:filename]%>
   <br><br>
-  送信者<%=session[:email]%>
+  送信者:<%=session[:email]%>
   <br><br>
 <%if (params[:session][:bracket]=="0")%>
-  件名：<br><%="【"+session[:user_name]+"】"%><br>
+  件名：<br><%="【"+session[:user_name]+"】"+@broadcast["subject"]%><br>
 <%else (params[:session][:bracket]=="1")%>
-  件名：<br><%="["+session[:user_name]+"]"%><br>
+  件名：<br><%="["+session[:user_name]+"]"+@broadcast["subject"]%><br>
   <%end%>
   <td>本文:<br><%=safe_join(@broadcast["body"].split("\n"),tag(:br))%></td><br>
 </div>

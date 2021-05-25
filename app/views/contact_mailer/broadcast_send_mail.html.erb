@@ -1,6 +1,13 @@
-<%="#{Time.current}"%>
-<%="人並みの中、ただ立ち尽くしてる"%>
-<%=SecureRandom.hex(8)%>
-<%=@text%>
 <%=safe_join(@body.split("\n"),tag(:br))%>
-  <%= Attachment.find(25) %>
+<br>
+<br>
+以下添付ファイル
+<%if !$attachment_number.nil?%>
+<%a_n=1%>
+<%while a_n<=($attachment_number) do%>
+<%attachment = Attachment.find_by("file_id": a_n)%>
+<%="http://localhost:3000/broadcast/download?URL="+attachment.URL %>
+<br>
+<%a_n+=1%>
+<%end%>
+<%end%>

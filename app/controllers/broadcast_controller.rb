@@ -3,7 +3,7 @@ class BroadcastController < ApplicationController
   before_action :logged_in_user
   def new
     $attachment_number=nil
-
+    Attachment.where.not("file_id":nil).destroy_all
   end
   #csvファイルからデータベースにカラム名＋データを格納する関数
   def create
@@ -54,7 +54,7 @@ class BroadcastController < ApplicationController
           if (!(a==1) && @broadcast[column].nil?)
             @broadcast.update("#{column}":"")
           end
-        end
+      end
         @broadcast[:user_id]=current_user.id
         @broadcast.save!(validate: false) if a==1
         @broadcast.save
@@ -66,27 +66,25 @@ class BroadcastController < ApplicationController
   end
 
   def update
-    p params
-    p "どこから説明しましょうか。変わりゆく現実の中で。"
+    # $attachment_numberが決まっていなかったら
     if !params["attachment_number"]["attachment_number"].nil?
       $attachment_number=params["attachment_number"]["attachment_number"].to_i
-      redirect_to broadcast_mail_entry_path
-    else
-    @attachment = Attachment.new(attachment_params)
-    @attachment.update_attribute("file_name",params[:attachment][:file_name])
-    @attachment.save
-    p "銀の涙を僕に預けて、君は１０００％"
-    p params[:attachment][:file_name]
-    redirect_to broadcast_mail_entry_path
+      #redirect_to broadcast_mail_entry_path
     end
+    #else
+    #@attachment = Attachment.new(attachment_params)
+    #@attachment.update_attribute("file_name",params[:attachment][:file_name])
+    #@attachment.save
+    redirect_to broadcast_mail_entry_path
+    #end
   end
 
   def download
-    @attachment = Attachment.find(25)
+    p params["URL"]
+    @attachment = Attachment.find_by("URL": params["URL"])
     filepath = @attachment.file_name.current_path
-    stat = File::stat(filepath)
+    #stat = File::stat(filepath)
     send_file("#{filepath}")
-
   end
 
   def delete_filename
@@ -113,14 +111,30 @@ class BroadcastController < ApplicationController
   end
   # ここのアクションで
   def confirm_email
-      a=1
-      while a<=($attachment_number) do
-        attachment = Attachment.find_by("file_id": a)
-        attachment.update_attribute("file_name",params[:session][:attachment][a-1])
-        attachment.save
-        a+=1
-      end
+    p params
+    p "ぱーぱらぱっぱぱらぱーぱぱぱぱぱぱ"
+    if params[:session][:attachment].nil?
+        flash.now[:danger] ="添付ファイルを選択してください。"
+        redirect_to broadcast_mail_entry_path
+        return
+    end
 
+    if !$attachment_number.nil?
+      a_n=1
+      while a_n<=($attachment_number) do
+        attachment=Attachment.new
+        attachment.update_attributes("file_id":a_n,"URL":SecureRandom.hex(32),"file_name":params[:session][:attachment][a_n-1])
+        attachment.save
+        p "愛し抜けるポイントがひとつあればいいのに、それだけでいいのに。"
+        p params[:session][:attachment][a_n-1]
+        a_n+=1
+      end
+    end
+
+        #attachment = Attachment.find_by("file_id": a)
+        #attachment.update_attribute("file_name",params[:session][:attachment][a-1])
+        #attachment.save
+        #a+=1
 
     # 画像をアップできるようにしております。
 
@@ -146,7 +160,6 @@ class BroadcastController < ApplicationController
 
 
   def preview_all
-    download
     @broadcast = Broadcast.where(user_id: current_user).where.not(body: nil)
   end
 
@@ -158,25 +171,33 @@ class BroadcastController < ApplicationController
 
     if $mymail=="1"
 
-      @user=User.new(id=100000,email:"toriaezu@p.com")
-      @user.update_attributes(
-        "address",current_user.address,
-        "port",current_user.port,
-        "domain",current_user.domain,
-        "user_name",current_user.user_name,
-        "smtp_password",current_user.smtp_password,
-        "authentication",current_user.authentication,
-        "enable_starttls_auto",current_user.enable_starttls_auto
-                            )
-      @user.save
+      #@user=User.new(id=100000,email:"toriaezu@p.com")
+      #@user.update_attributes(
+        #"address",current_user.address,
+        #"port",current_user.port,
+        #"domain",current_user.domain,
+        #"user_name",current_user.user_name,
+        #"smtp_password",current_user.smtp_password,
+        #"authentication",current_user.authentication,
+        #"enable_starttls_auto",current_user.enable_starttls_auto
+
+      #@user.save
     end
 
     @broadcasts.each do |broadcast|
-      ContactMailer.delay.broadcast_send_mail(broadcast.email,broadcast.subject,broadcast.body)
+      ContactMailer.broadcast_send_mail(broadcast.email,broadcast.subject,broadcast.body).deliver_now
+      #ContactMailer.delay.broadcast_send_mail(broadcast.email,broadcast.subject,broadcast.body)
     end
-    b=Mailinfo.new("body": session[:body],"subject": session[:subject],"user_id": session[:user_id])
-    b.save
+    mailinfo=Mailinfo.new("body": session[:body],"subject": session[:subject],"user_id": session[:user_id])
+    mailinfo.save
     Broadcast.where(user_id: current_user.id).destroy_all
+
+    a_n=1
+    while a_n<=($attachment_number) do
+      attachment = Attachment.find_by("file_id": a_n)
+      attachment.update_attributes("file_id": nil,"mail_id": mailinfo.id)
+      a_n+=1
+    end
     system("./bin/delayed_job start")
     reset_session
   end
@@ -217,7 +238,7 @@ class BroadcastController < ApplicationController
 
 
   def attachment_params
-    params.require(:attachment).permit({ file_name: [] })
+    params.require(:attachment).permit(:file_name)
   end
 
 end

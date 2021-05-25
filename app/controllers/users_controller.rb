@@ -46,6 +46,8 @@ class UsersController < ApplicationController
   def edit
     @user = User.find(params[:id])
     @mailinfos = @user.mailinfos.paginate(page: params[:page], per_page: 10)
+    @mailinfoss = Mailinfo.where("user_id":params[:id])
+    #@attachments = @user.mailinfos.attributes
   end
 
 
