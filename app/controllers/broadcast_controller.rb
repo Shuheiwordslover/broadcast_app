@@ -195,7 +195,7 @@ class BroadcastController < ApplicationController
     a_n=1
     while a_n<=($attachment_number) do
       attachment = Attachment.find_by("file_id": a_n)
-      attachment.update_attributes("file_id": nil,"mail_id": mailinfo.id)
+      attachment.update_attributes("file_id": nil,"mailinfo_id": mailinfo.id)
       a_n+=1
     end
     system("./bin/delayed_job start")

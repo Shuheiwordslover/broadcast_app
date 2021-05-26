@@ -6,7 +6,7 @@
 <%a_n=1%>
 <%while a_n<=($attachment_number) do%>
 <%attachment = Attachment.find_by("file_id": a_n)%>
-<%="http://localhost:3000/broadcast/download?URL="+attachment.URL %>
+<%=Settings.download_link+attachment.URL %>
 <br>
 <%a_n+=1%>
 <%end%>

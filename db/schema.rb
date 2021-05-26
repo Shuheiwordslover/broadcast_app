@@ -19,9 +19,9 @@ ActiveRecord::Schema.define(version: 20210524021405) do
   create_table "attachments", force: :cascade do |t|
     t.string   "file_name"
     t.string   "URL"
-    t.integer  "mail_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "mailinfo_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.integer  "file_id"
   end
 

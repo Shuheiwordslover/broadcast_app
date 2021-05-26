@@ -3,7 +3,7 @@ class CreateAttachments < ActiveRecord::Migration
     create_table :attachments do |t|
       t.string :file_name
       t.string :URL
-      t.integer :mail_id
+      t.integer :mailinfo_id
 
       t.timestamps null: false
     end

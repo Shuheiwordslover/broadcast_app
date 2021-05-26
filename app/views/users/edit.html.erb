@@ -57,21 +57,22 @@
   <%flash.now[:danger] = "パスワードも含めて空欄を全部埋めてください"%>
   <% end %>
 <br><br>
-<%@user.mailinfos.each do |mailinfo|%>
+<%@mailinfos.each do |mailinfo|%>
 <%sent_date = mailinfo.created_at%>
 <%body =mailinfo.body%>
 <%subject = mailinfo.subject%>
 送信日:<%= sent_date %><br>
 本文:<%= body %><br>
 件名:<%= subject %><br>
-
+添付ファイル：<% mailinfo.attachments.each do|yeah|%>
+<%a=yeah[:file_name]%><br>
+<%= link_to yeah[:file_name],Settings.download_link+yeah["URL"],method: :get %>
+<%p yeah%>
+<% end %>
 <br><br>-------------------------------------------------------------<br><br>
-<%end%>
-呪文さ君に教えてあげるよー
-<%@mailinfoss.each do |mailinfo|%>
-<%=mailinfo.attributes%>
-aaaaaa
-<%end%>
+<% end %>
+
+
 
 <%= link_to "ユーザー一覧に戻る", users_path,method: :get, class: "btn btn-lg btn-primary" %>
 
