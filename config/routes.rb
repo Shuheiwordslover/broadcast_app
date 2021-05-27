@@ -14,8 +14,8 @@ Rails.application.routes.draw do
   post "broadcast/update" => "broadcast#update"
   root             'sessions#new_user'
   get 'signup'  => 'users#new'
-  get    'login'   => 'sessions#new'
-  post   'login'   => 'sessions#create'
+  get    'admin'   => 'sessions#new'
+  post   'admin'   => 'sessions#create'
   get 'login_user' =>"broadcast#new"
   post 'login_user' =>'sessions#create_user'
   delete 'logout'  => 'sessions#destroy'

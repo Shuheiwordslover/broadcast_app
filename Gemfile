@@ -46,6 +46,11 @@ gem "delayed_job_active_record"
 gem "daemons"
 
 gem 'settingslogic'
+
+gem 'capistrano', "3.10.2"
+gem 'capistrano-rails'
+gem 'capistrano-bundler'
+gem 'capistrano-rvm', require: false
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

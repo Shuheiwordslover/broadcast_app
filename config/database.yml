@@ -81,6 +81,11 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
+
+staging:
+  <<: *default
+  database: broadcast_app_staging
+  
 production:
   <<: *default
   database: broadcast_app_production

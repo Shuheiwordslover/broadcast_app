@@ -1,13 +1,20 @@
 <%=safe_join(@body.split("\n"),tag(:br))%>
 <br>
 <br>
-以下添付ファイル
-<%if !$attachment_number.nil?%>
-<%a_n=1%>
-<%while a_n<=($attachment_number) do%>
-<%attachment = Attachment.find_by("file_id": a_n)%>
-<%=Settings.download_link+attachment.URL %>
-<br>
-<%a_n+=1%>
-<%end%>
+以下添付ファイル<br>
+<%if !Attachment.maximum(:file_id).nil?%>
+  <%a_n=1%>
+  <%max=Attachment.maximum(:file_id)%>
+  <%while a_n<=(max) do%>
+    <%attachment = Attachment.find_by("file_id": a_n)%>
+    <%=Settings.download_link+attachment.URL %>
+    <br>
+    <%a_n+=1%>
+  <%end%>
+  <%a_n=1%>
+  <%while a_n<=(max) do%>
+    <%attachment = Attachment.find_by("file_id": a_n)%>
+    <%attachment.update_attribute("file_id": nil)%>
+    <%a_n+=1%>
+  <%end%>
 <%end%>

@@ -1,9 +1,9 @@
 class ContactMailer < ApplicationMailer
   after_action :check_settings, only: :broadcast_send_mail
-  def broadcast_send_mail(target,subject,body)
+  def broadcast_send_mail(target,subject,body,user)
     @body= body
     mail(to:target,subject:subject)
-
+    @user= user
     if $mymail =="1"
       ActionMailer::Base.smtp_settings[:address] = @user.address
       ActionMailer::Base.smtp_settings[:port] = @user.port
