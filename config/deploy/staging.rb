@@ -10,7 +10,7 @@ server 'www2.e-kenkyu.com', user: "broadcast_staging", roles: %w{app db web}
 ask :branch, :master
 
 set :default_env, { path: "/opt/ruby-2.2/bin:$PATH" }
-set :deploy_to, '/home/shuhei/workspace/broadcast_app'
+set :deploy_to, 'home/shuhei/workspace/broadcast_app'
 set :tmp_dir, "#{ deploy_to }/tmp"
 
 
