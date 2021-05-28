@@ -1,7 +1,7 @@
 lock "3.10.2"
 
 set :application, 'broadcast_app'
-set :repo_url, 'git@github.com:Shuheiwordslover/broadcast_app.git'
+set :repo_url, 'git@github.com:SendaiKyodoPrinting/broadcast_app.git'
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 

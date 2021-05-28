@@ -1,16 +1,9 @@
-lock '3.10.2'
-
-# Simple Role Syntax
-# ==================
-# Supports bulk-adding hosts to roles, the primary
-# server in each group is considered to be the first
-# unless any hosts have the primary property set.
 server 'www2.e-kenkyu.com', user: "broadcast_staging", roles: %w{app db web}
 
 ask :branch, :master
 
 set :default_env, { path: "/opt/ruby-2.2/bin:$PATH" }
-set :deploy_to, 'home/shuhei/workspace/broadcast_app'
+set :deploy_to, 'home/broadcast_staging'
 set :tmp_dir, "#{ deploy_to }/tmp"
 
 
