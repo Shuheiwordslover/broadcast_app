@@ -51,6 +51,8 @@ gem 'capistrano', "3.10.2"
 gem 'capistrano-rails'
 gem 'capistrano-bundler'
 gem 'capistrano-rvm', require: false
+gem 'rails-observers'
+gem 'web-console', '~> 2.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -67,7 +69,7 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
+
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'

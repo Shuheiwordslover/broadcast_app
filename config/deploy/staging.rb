@@ -1,4 +1,4 @@
-server 'www2.e-kenkyu.com', user: "broadcast_staging", roles: %w{app db web}
+server 'www2.e-kenkyu.com', user: "broadcast_staging", roles: %w{app db web}, :primary => true
 
 ask :branch, :master
 
