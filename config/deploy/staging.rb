@@ -6,7 +6,7 @@ set :default_env, { path: "/opt/ruby-2.2/bin:$PATH" }
 set :deploy_to, 'home/broadcast_staging'
 set :tmp_dir, "#{ deploy_to }/tmp"
 
-
+set :user, "broadcast_app"
 # Extended Server Syntax
 # ======================
 # This can be used to drop a more detailed server
